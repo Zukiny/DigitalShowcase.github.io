@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Slide on Hover</title>
+    <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css">
+    <script defer src="https://pyscript.net/latest/pyscript.js"></script>
+
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            padding-bottom: 40px;
+            background: linear-gradient(to left, rgb(49, 174, 247), rgb(192, 229, 250));
+        }
+
+        #header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgb(96, 108, 211);
+            text-align: center;
+            padding: 20px;
+            font-size: 2em; /* Increase font size */
+            z-index: 1000;
+        }
+
+        .container {
+            display: flex;
+            margin-top: 100px;
+            width: 100%;
+        }
+
+        .description {
+            flex: 1;
+            padding: 20px; /* Adjust this if needed */
+            font-size: 2em; /* Increased font size */
+            max-width: 100%; /* Ensure it fits within 100% width */
+        }
+
+        .gallery {
+            width: 300px;
+            margin-left: auto;
+            margin-right: 25px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slides {
+            display: flex;
+            transition: transform 0.5s ease; /* Smooth transition for sliding effect */
+        }
+
+        .slides img {
+            width: 100%;
+            height: auto;
+            flex: 0 0 100%;
+        }
+
+        .buttons {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-50%);
+        }
+
+        .button {
+            background-color: rgba(255, 255, 255, 0.7);
+            border: none;
+            cursor: pointer;
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        /* Splitter Style */
+        .splitter {
+            background-color: rgb(96, 108, 211);
+            padding: 20px;
+            text-align: center;
+            width: 100%;
+            margin-top: 20px;
+            margin-bottom: 40px;
+        }
+
+        .search-bar {
+            width: 300px;
+            padding: 10px;
+            font-size: 16px;
+            margin: 0 auto;
+            display: block;
+        }
+
+        
+
+        /* New Image Box Styles */
+        .image-box-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+    
+        .image-box {
+            position: relative;
+            width: 200px; /* Increased width */
+            height: 150px; /* Increased height */
+            overflow: hidden;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+    
+        .image-box .slides {
+            display: flex;
+            transition: transform 0.5s ease; /* Transition for sliding */
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+    
+        .image-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            flex: 0 0 100%;
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .image-box:hover .overlay {
+            opacity: 1;
+        }
+
+    </style>
+
+</head>
+
+<body>
+    <div id="header">Digital Art Showcase</div>
+
+    <div class="container">
+        <div class="description">
+            <h1>Digidodo</h1>
+            <p>Find your most loved art through Digital media.</p>
+        </div>
+
+        <div class="gallery">
+            <div class="slides" id="slides">
+                <img src="Example/Ex1.png" alt="Image 1">
+                <img src="Example/ex2.png" alt="Image 2">
+                <img src="Example/ex3.png" alt="Image 3">
+            </div>
+            <div class="buttons">
+                <button class="button" onclick="prevSlide()">❮</button>
+                <button class="button" onclick="nextSlide()">❯</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Splitter Div with Search Bar -->
+    <div class="splitter">
+        <input type="text" class="search-bar" placeholder="Search..." />
+    </div>
+
+    <!-- Image Boxes Below the Splitter -->
+    <div class="image-box-container">
+        <div class="image-box" onmouseenter="nextImage(this)">
+            <div class="slides">
+                <img src="Anime/Anime1.png" alt="Image 1">
+                <img src="Anime/anime2.png" alt="Image 2">
+                <img src="Anime/anime3.png" alt="Image 3">
+            </div>
+            <div class="overlay">Anime</div>
+        </div>
+        <div class="image-box" onmouseenter="nextImage(this)">
+            <div class="slides">
+                <img src="Cartoon/Cart1.png" alt="Image 6">
+                <img src="Cartoon/cart2.png" alt="Image 7">
+                <img src="Cartoon/cart3.png" alt="Image 8">
+            </div>
+            <div class="overlay">Cartoon</div>
+        </div>
+        <div class="image-box" onmouseenter="nextImage(this)">
+            <div class="slides">
+                <img src="Caricature/Cari1.png" alt="Image 11">
+                <img src="Caricature/Cari2.png" alt="Image 12">
+                <img src="Caricature/Car3.png" alt="Image 13">
+            </div>
+            <div class="overlay">Caricature</div>
+        </div>
+        <div class="image-box" onmouseenter="nextImage(this)">
+            <div class="slides">
+                <img src="3d/3d1.png" alt="Image 16">
+                <img src="3d/3d2.png" alt="Image 17">
+                <img src="3d/3d3.png" alt="Image 18">
+            </div>
+            <div class="overlay">3D Artwork</div>
+        </div>
+        <div class="image-box" onmouseenter="nextImage(this)">
+            <div class="slides">
+                <img src="Digital illustration/Di1.png" alt="Image 21">
+                <img src="Digital illustration/Di2.png" alt="Image 22">
+                <img src="Digital illustration/Di3.png" alt="Image 23">
+            </div>
+            <div class="overlay">Digital Illustration</div>
+        </div>
+    </div>
+
+    <script>
+        function nextImage(box) {
+            const slides = box.querySelector('.slides');
+            const images = slides.children;
+            let currentIndex = 0;
+
+            // Get the current index based on the visible image
+            for (let i = 0; i < images.length; i++) {
+                if (images[i].style.opacity !== '0') {
+                    currentIndex = i;
+                    break;
+                }
+            }
+
+            // Calculate the next index
+            const nextIndex = (currentIndex + 1) % images.length;
+
+            // Set opacity of current image to 0 and the next image to 1
+            images[currentIndex].style.opacity = 0;
+            images[nextIndex].style.opacity = 1;
+
+            // Move to the next image instantly
+            slides.style.transform = `translateX(${-nextIndex * 100}%)`;
+        }
+
+        let currentSlide = 0;
+
+        function showSlide(index) {
+            const slides = document.getElementById('slides');
+            const totalSlides = slides.children.length;
+            // Reset the index if it goes out of bounds
+            if (index >= totalSlides) {
+                currentSlide = 0;
+            } else if (index < 0) {
+                currentSlide = totalSlides - 1;
+            } else {
+                currentSlide = index;
+            }
+            slides.style.transform = 'translateX(' + (-currentSlide * 100) + '%)';
+        }
+
+        function nextSlide() {
+            showSlide(currentSlide + 1);
+        }
+
+        function prevSlide() {
+            showSlide(currentSlide - 1);
+        }
+        
+    </script>
+
+</body>
+
+</html>
